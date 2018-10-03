@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AnswerMO" representedClassName=".AnswerMO" syncable="YES" codeGenerationType="class">
+        <attribute name="answer" optional="YES" attributeType="Integer 16" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuestionMO" inverseName="answers" inverseEntity="QuestionMO" syncable="YES"/>
+    </entity>
+    <entity name="QuestionMO" representedClassName="QuestionMO" syncable="YES" codeGenerationType="class">
+        <attribute name="expanded" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="prompt" attributeType="String" syncable="YES"/>
+        <attribute name="questionOrder" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="answers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AnswerMO" inverseName="question" inverseEntity="AnswerMO" syncable="YES"/>
+    </entity>
+    <entity name="TimeMO" representedClassName="TimeMO" syncable="YES" codeGenerationType="class">
+        <attribute name="dateCurrent" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AnswerMO" positionX="-63" positionY="9" width="128" height="90"/>
+        <element name="QuestionMO" positionX="160" positionY="-36" width="128" height="105"/>
+        <element name="TimeMO" positionX="45" positionY="18" width="128" height="60"/>
+    </elements>
 </model>
