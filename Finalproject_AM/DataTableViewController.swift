@@ -80,7 +80,7 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
     var wRect = 8
     var hRect = 8
     var i = 0
-    var color = [#colorLiteral(red: 0.7159002205, green: 0.7519180853, blue: 1, alpha: 1),#colorLiteral(red: 0.4880080041, green: 0.4273793394, blue: 0.9386941386, alpha: 1),#colorLiteral(red: 0.2945601255, green: 0.5465806749, blue: 0.9386941386, alpha: 1), #colorLiteral(red: 0.44840756, green: 0.798639889, blue: 0.8748178433, alpha: 1), #colorLiteral(red: 0.5741740892, green: 0.8748178433, blue: 0.5414004639, alpha: 1),  #colorLiteral(red: 0.389306744, green: 0.9335127915, blue: 0.7395909751, alpha: 1),   #colorLiteral(red: 0.3095545338, green: 0.5655764249, blue: 0.2324836445, alpha: 1), #colorLiteral(red: 0.606016352, green: 0.9048421637, blue: 0.6626235875, alpha: 1), #colorLiteral(red: 0.758913188, green: 0.9048421637, blue: 0.5555342065, alpha: 1), #colorLiteral(red: 0.9048421637, green: 0.888654018, blue: 0.1948644217, alpha: 1), #colorLiteral(red: 0.9346050127, green: 0.7796793077, blue: 0.1454421835, alpha: 1), #colorLiteral(red: 0.9670843909, green: 0.7241435207, blue: 0.3248169758, alpha: 1), #colorLiteral(red: 0.9670843909, green: 0.6777772679, blue: 0.5210557656, alpha: 1), #colorLiteral(red: 0.9670843909, green: 0.6951637315, blue: 0.6609211794, alpha: 1), #colorLiteral(red: 0.9670843909, green: 0.6725604544, blue: 0.7310534835, alpha: 1), #colorLiteral(red: 1, green: 0.8040505628, blue: 0.8774504553, alpha: 1), #colorLiteral(red: 0.9859373539, green: 0.8916180043, blue: 1, alpha: 1), #colorLiteral(red: 0.7264629015, green: 0.7435494548, blue: 1, alpha: 1)]
+    var color = [#colorLiteral(red: 0.7159002205, green: 0.7519180853, blue: 1, alpha: 1),#colorLiteral(red: 0.4880080041, green: 0.4273793394, blue: 0.9386941386, alpha: 1),#colorLiteral(red: 0.2945601255, green: 0.5465806749, blue: 0.9386941386, alpha: 1),#colorLiteral(red: 0.44840756, green: 0.798639889, blue: 0.8748178433, alpha: 1),#colorLiteral(red: 0.5741740892, green: 0.8748178433, blue: 0.5414004639, alpha: 1),#colorLiteral(red: 0.389306744, green: 0.9335127915, blue: 0.7395909751, alpha: 1),#colorLiteral(red: 0.3095545338, green: 0.5655764249, blue: 0.2324836445, alpha: 1),#colorLiteral(red: 0.606016352, green: 0.9048421637, blue: 0.6626235875, alpha: 1),#colorLiteral(red: 0.758913188, green: 0.9048421637, blue: 0.5555342065, alpha: 1),#colorLiteral(red: 0.9048421637, green: 0.888654018, blue: 0.1948644217, alpha: 1),#colorLiteral(red: 0.9346050127, green: 0.7796793077, blue: 0.1454421835, alpha: 1),#colorLiteral(red: 0.9670843909, green: 0.7241435207, blue: 0.3248169758, alpha: 1),#colorLiteral(red: 0.9670843909, green: 0.6777772679, blue: 0.5210557656, alpha: 1),#colorLiteral(red: 0.9670843909, green: 0.6951637315, blue: 0.6609211794, alpha: 1),#colorLiteral(red: 0.9670843909, green: 0.6725604544, blue: 0.7310534835, alpha: 1),#colorLiteral(red: 1, green: 0.8040505628, blue: 0.8774504553, alpha: 1),#colorLiteral(red: 0.9859373539, green: 0.8916180043, blue: 1, alpha: 1),#colorLiteral(red: 0.7264629015, green: 0.7435494548, blue: 1, alpha: 1)]
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -278,8 +278,9 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
     var keyList = [String]()
     var sectionDict = [String: [AnswerMO]]()
     func createKey(){
-        lastJ = 0
-
+        if(keyList.count == 0){
+            lastJ = 0
+        }
         jMax=0
         Answers = []
         Questions = []
@@ -287,7 +288,7 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
         a = 0
         b = 0
         let fetchRequest : NSFetchRequest<QuestionMO> = QuestionMO.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "prompt", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "questionOrder", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         let context = appDelegate?.persistentContainer.viewContext

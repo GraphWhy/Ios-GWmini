@@ -6,12 +6,8 @@
 //  Copyright © 2018 Alexander McNulty. All rights reserved.
 //
 
-
-
 import UIKit
 import CoreData
-
-
 
 
 class TableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
@@ -215,13 +211,49 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            let context = appDelegate?.persistentContainer.viewContext
+            // add a pop up to warn the user
+            // message: "Deleting this question will remove the records from the data tab view"
+            let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                switch action.style{
+                case .default:
+                    
+                    let context = self.appDelegate?.persistentContainer.viewContext
+                    let itemToDelete = self.fetchResultsController.object(at: indexPath)
+                    self.deletedId = Int(itemToDelete.questionOrder)
+                    context?.delete(itemToDelete)
+                    self.appDelegate?.saveContext()
+                    print("Question Deleted")
+                    
+                case .cancel:
+                    print("cancel")
+                    
+                case .destructive:
+                    print("destructive")
+
+                }}))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { action in
+                    switch action.style{
+                    case .default:
+                        print("cancel")
+                        
+                    case .cancel:
+                        print("cancel")
+                        
+                    case .destructive:
+                        print("destructive")
+                        
+                        
+                    }}))
+            self.present(alert, animated: true, completion: nil)
             
-            let itemToDelete = self.fetchResultsController.object(at: indexPath)
-            deletedId = Int(itemToDelete.questionOrder)
-            context?.delete(itemToDelete)
-            appDelegate?.saveContext()
+            // Delete the row from the data source
+            
+            
+            /*
+            */
+            
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
