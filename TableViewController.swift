@@ -213,7 +213,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
         if editingStyle == .delete {
             // add a pop up to warn the user
             // message: "Deleting this question will remove the records from the data tab view"
-            let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Warning", message: "Deleting this question will remove all data for this question from the data table.", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                 switch action.style{
                 case .default:

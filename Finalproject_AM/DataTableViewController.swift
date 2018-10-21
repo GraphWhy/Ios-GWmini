@@ -29,14 +29,13 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
         // self.clearsSelectionOnViewWillAppear = false
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        createKey()
+        //createKey()
 
         
         
     }
     override func viewWillAppear(_ animated: Bool) {
         jMax = 0
-
         createKey()
 
     }
@@ -76,61 +75,66 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
     var a = 0
     var b = 0
     var xRect = 5
-    var yRect = 10
+    var yRect = 14
     var wRect = 8
     var hRect = 8
     var i = 0
     var color = [#colorLiteral(red: 0.7159002205, green: 0.7519180853, blue: 1, alpha: 1),#colorLiteral(red: 0.4880080041, green: 0.4273793394, blue: 0.9386941386, alpha: 1),#colorLiteral(red: 0.2945601255, green: 0.5465806749, blue: 0.9386941386, alpha: 1),#colorLiteral(red: 0.44840756, green: 0.798639889, blue: 0.8748178433, alpha: 1),#colorLiteral(red: 0.5741740892, green: 0.8748178433, blue: 0.5414004639, alpha: 1),#colorLiteral(red: 0.389306744, green: 0.9335127915, blue: 0.7395909751, alpha: 1),#colorLiteral(red: 0.3095545338, green: 0.5655764249, blue: 0.2324836445, alpha: 1),#colorLiteral(red: 0.606016352, green: 0.9048421637, blue: 0.6626235875, alpha: 1),#colorLiteral(red: 0.758913188, green: 0.9048421637, blue: 0.5555342065, alpha: 1),#colorLiteral(red: 0.9048421637, green: 0.888654018, blue: 0.1948644217, alpha: 1),#colorLiteral(red: 0.9346050127, green: 0.7796793077, blue: 0.1454421835, alpha: 1),#colorLiteral(red: 0.9670843909, green: 0.7241435207, blue: 0.3248169758, alpha: 1),#colorLiteral(red: 0.9670843909, green: 0.6777772679, blue: 0.5210557656, alpha: 1),#colorLiteral(red: 0.9670843909, green: 0.6951637315, blue: 0.6609211794, alpha: 1),#colorLiteral(red: 0.9670843909, green: 0.6725604544, blue: 0.7310534835, alpha: 1),#colorLiteral(red: 1, green: 0.8040505628, blue: 0.8774504553, alpha: 1),#colorLiteral(red: 0.9859373539, green: 0.8916180043, blue: 1, alpha: 1),#colorLiteral(red: 0.7264629015, green: 0.7435494548, blue: 1, alpha: 1)]
     
+    //helper function pulled from stackoverflow
+    //stackoverflow.com/questions/25412606/find-uilabel-in-uiview-in-swift"
+    func getLabelsInView(view: UIView) -> [UILabel] {
+        var results = [UILabel]()
+        for subview in view.subviews as [UIView] {
+            if let labelView = subview as? UILabel {
+                results += [labelView]
+            } else {
+                results += getLabelsInView(view: subview)
+            }
+        }
+        return results
+    }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        print ("hit cellForRowAt")
         
         let cellIdentifier  = "dataCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! DataTableViewCell
         
-        for subview in cell.contentView.subviews {
-            if let view = subview as? UIView {
-                view.removeFromSuperview()
-            }
-        }
-        var er = 0
- //       for keyShiz in keyCell.subviews {
- //           er = er + 1
-  //          if er > 7 {
-  //              if let view = keyShiz as? UIView {
-   //                 view.removeFromSuperview()
-  //              }
-  //          }
-  //      }
         
         let currentKey = keyList[indexPath.section]
-        //var newAnswer : [AnswerMO] = []
         
+        
+        //remove the cell._____subview
+        //probably need a for loop
+        //print (cell.subviews)
+        //print (keyCell.subviews)
+        for datapoint in cell.subviews {
+            //print("datapoint", datapoint)
+            datapoint.removeFromSuperview()
+        }
+        
+        
+
+        
+        //for keyvalue in keyCell.subviews{
+            //print("keyvalue", keyvalue)
+            //if (keyvalue.Type == UIView){
+                
+            //}
+        //
+        //}
         
         if let keyValue = sectionDict[currentKey] {
             
-            //cell.label1.text = String(describing: keyValue[indexPath.row].date)
-            //cell.label2.text = String(describing: keyValue[indexPath.row].answer)
-            print(keyValue[indexPath.row].answer)
-            //let answerArr = keyValue[indexPath.row].date
-            //for obj in answerArr! {
-            //   newAnswer.append(obj as! AnswerMO)
-            //}
-            //var answerText : String = ""
-            //let temparr:[String] = []
             var dd : Date!
             let p = Date()
             var j : Int
             var pday = calendar.component(.day, from: p)
-            var pyear = calendar.component(.year, from: p)
-            var pmonth = calendar.component(.month, from: p)
-
             
-            xRect = 5
-            yRect = 14
-            wRect = 8
-            hRect = 8
+            //create the gray array for the data table
             for i in 1..<32 {
                 for jj in 1..<(jMax+1) {
                     let vwSq4 = UIView()
@@ -139,34 +143,26 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
                     cell.addSubview(vwSq4)
                 }
             }
-
-            if lastJMax == jMax{
-            } else{
-                shouldBeDone = shouldBeDone + Questions.count
+            
+            //this should be removed
+            if lastJMax != jMax{
+                //shouldBeDone = shouldBeDone + Questions.count
+                shouldBeDone = Questions.count
                 lastJMax = jMax
             }
+            
             var jArr = Set<String>()
 
+            //this loop populates key cell, and the cells in the table
             for value in keyValue {
-                var rrr = String((value.question?.prompt)!)
-                if jArr.count == 0 {
-                    jArr.insert(String(rrr))
-                }
-                var insertionResult2 = jArr.insert(String(rrr))
-                if insertionResult2.inserted {
-                }
+                
+                jArr.insert(String((value.question?.prompt)!))
+
                 j = jArr.count
 
-
-                xRect = 5
-                yRect = 14
-                wRect = 8
-                hRect = 8
                 
                 dd = value.date
                 pday =  calendar.component(.day, from: dd!)
-                pyear = calendar.component(.year, from: dd!)
-                pmonth = calendar.component(.month, from: dd!)
                 xRect = xRect + (9 * Int(pday))
                 let vwSq = UIView()
                 vwSq.backgroundColor = color[j]
@@ -177,30 +173,25 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
                 }
                 cell.addSubview(vwSq)
                 
-                xRect = 5
-                yRect = 14
-                wRect = 8
-                hRect = 8
                 //set up keycell
                 //if j > lastJ && j < Questions.count+1 && doneBefore < shouldBeDone{
-                if  j < Questions.count+1 && doneBefore < shouldBeDone{
-                    keyCell.frame = CGRect(x:0 , y:0, width:self.view.frame.width, height:135 + self.view.frame.height * 0.027 * CGFloat(jMax))
-                    let vwSq2 = UIView()
-                    vwSq2.backgroundColor = color[j]
-                    vwSq2.frame = CGRect(x: 30, y: 119+16*j, width: Int(Double(wRect) * 1.7), height: Int(Double(hRect)*1.7))
-                    keyCell.addSubview(vwSq2)
-                    //set labels for the key colors
-                    let keytext =  UILabel(frame: CGRect(x: 90, y: 119+(16*j), width: 300, height: Int(Double(hRect)*1.7)))
-                    keytext.text = value.question?.prompt
-                    print(String(describing: value.question?.prompt))
-                    keytext.font = UIFont.systemFont(ofSize: 14)
-                    var insertionResults = aString.insert((value.question?.prompt)!)
-                    if insertionResults.inserted {
-                        doneBefore = doneBefore + 1
-                        keyCell.addSubview(keytext)
+                //if  j < Questions.count+1 && doneBefore < shouldBeDone{
+                keyCell.frame = CGRect(x:0 , y:0, width:self.view.frame.width, height:135 +     self.view.frame.height * 0.027 * CGFloat(jMax))
+                let vwSq2 = UIView()
+                vwSq2.backgroundColor = color[j]
+                vwSq2.frame = CGRect(x: 30, y: 119+16*j, width: Int(Double(wRect) * 1.7), height: Int(Double(hRect)*1.7))
+                keyCell.addSubview(vwSq2)
+                
+                //set labels for the key colors
+                let keytext =  UILabel(frame: CGRect(x: 90, y: 119+(16*j), width: 300, height: Int(Double(hRect)*1.7)))
+                keytext.text = value.question?.prompt
+                //print(String(describing: value.question?.prompt))
+                keytext.font = UIFont.systemFont(ofSize: 14)
 
-                    }
-                }
+                keyCell.addSubview(keytext)
+
+                
+                //}
                 lastJ = j
                 
                 xRect = 5
@@ -209,22 +200,7 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
                 hRect = 8
             }
             
-            //let r = calendar.range(of: .day, in: .month, for: dd!)!
-            //let kDays = r.count
-            //let dateFormatter = DateFormatter()
-            //print("the number of days is ... \(kDays)")
-            //let months = dateFormatter.shortMonthSymbols
-            //let monthSymbol = months![pmonth-1] // month - from your date components
-            
-            //print(monthSymbol)
-            
-            //let string = monthSymbol + String(describing: pyear) + " 1st - " + String(kDays) + "st"
 
-            //vwSq = UIView()
-            //vwSq.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            //let newyRect = yRect + (9 * (jMax + 2))
-            //vwSq.frame = CGRect(x: xRect, y: newyRect, width: wRect, height: hRect)
-            //cell.addSubview(vwSq)
             
             xRect = 5
             yRect = 14
@@ -238,6 +214,9 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
             }
             cell.selectionStyle = UITableViewCellSelectionStyle.none
         }
+        
+        //print("shouldBeDone: ", shouldBeDone, "\n doneBefore: ", doneBefore, "\n question.count", Questions.count)
+        
         
         return cell
     }
@@ -278,6 +257,25 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
     var keyList = [String]()
     var sectionDict = [String: [AnswerMO]]()
     func createKey(){
+        
+        
+        
+        let labels = getLabelsInView(view: keyCell)
+        
+        for label in labels {
+            if(!(label.text?.contains("Yes   "))!
+                && !(label.text?.contains("No    "))!
+                && !(label.text?.contains("Daily Question Key:    "))!
+                ){
+                print("keylabels", label.text)
+                label.removeFromSuperview()
+            }
+        }
+
+        
+        
+        print ("createKey called")
+        
         if(keyList.count == 0){
             lastJ = 0
         }
@@ -302,7 +300,7 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
         } catch {
             print(error)
         }
-        print(Questions)
+        //print(Questions)
         
         keyList = [String]()
         sectionDict = [String: [AnswerMO]]()
@@ -310,8 +308,6 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
-        let minute:TimeInterval = 60.0
-        let hour:TimeInterval = 60.0 * minute
         //let day:TimeInterval = 24 * hour
 
         let calendar = Calendar.current
@@ -337,15 +333,15 @@ class DataTableViewController: UITableViewController,  NSFetchedResultsControlle
                     let r = calendar.range(of: .day, in: .month, for: dd!)!
                     let kDays = r.count
                     
-                    print(monthSymbol)
+                    //print(monthSymbol)
                     let orderNum = 0 + (pmonth + (pyear*12)) - (month + (year*12))
                     let letters = ["1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
                     
                     let string = letters[orderNum] + ":     " + monthSymbol + ", " + String(describing: year) + ": 1st - " + String(kDays) + "st"
                     
                     if month == pmonth || year == pyear {
-                        print("standard")
-                        print(string)
+                        //print("standard")
+                        //print(string)
                         let cKey = string
                         if var valueArr = sectionDict[String(cKey)] {
                             valueArr.append(currentAnswer)
